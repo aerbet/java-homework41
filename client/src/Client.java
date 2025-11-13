@@ -4,6 +4,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.InputStream;
 
 public class Client {
     private final int port;
@@ -27,7 +30,10 @@ public class Client {
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter printWriter = new PrintWriter(outputStream);
 
-            try (scanner; printWriter) {
+            try (scanner; printWriter; InputStream input = socket.getInputStream()) {
+                InputStreamReader inputStreamReader = new InputStreamReader(input);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+
                 while (true) {
                     String command = scanner.nextLine();
                     printWriter.write(command);
@@ -37,6 +43,9 @@ public class Client {
                     if(command.equalsIgnoreCase("stop")) {
                         return;
                     }
+
+                    String line = reader.readLine();
+                    System.out.println("Server: " + line);
                 }
             }
         } catch (NoSuchElementException nsee) {
