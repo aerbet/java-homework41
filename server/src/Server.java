@@ -49,7 +49,7 @@ public class Server {
                 printWriter.write(System.lineSeparator());
                 printWriter.flush();
 
-                System.out.print("Reversing message...");
+                System.out.println("Reversing message...");
                 if (message.equalsIgnoreCase("stop")) {
                     System.out.println("Stopping server...");
                     return;
